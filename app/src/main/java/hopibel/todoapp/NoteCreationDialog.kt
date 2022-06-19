@@ -13,7 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 // view 2: note creation
 @Composable
-fun NoteCreationDialog(onDismissRequest: () -> Unit) {
+fun NoteCreationDialog(onDismissRequest: () -> Unit, viewModel: NoteViewModel = hiltViewModel()) {
     var titleText by remember { mutableStateOf("") }
     var bodyText by remember { mutableStateOf("") }
 
@@ -36,11 +36,16 @@ fun NoteCreationDialog(onDismissRequest: () -> Unit) {
                     onValueChange = { bodyText = it },
                     label = { Text("Body") },
                     maxLines = 10,
-                    modifier = Modifier.height(230.dp),
+                    modifier = Modifier.height(250.dp),
                 )
                 Row {
                     Spacer(modifier = Modifier.weight(1f))
-                    Button(onClick = { /*viewModel.addNote(titleText, bodyText)*/ }) {
+                    Button(onClick = {
+                        if (titleText.isNotEmpty()) {
+                            viewModel.addNote(titleText, bodyText)
+                            onDismissRequest()
+                        }
+                    }) {
                         Text("Save")
                     }
                 }

@@ -16,6 +16,10 @@ class NoteViewModel @Inject constructor(
 ) : ViewModel() {
     val notes: Flow<List<Note>> = noteRepository.allNotes
 
+    fun getNote(noteId: Long): Flow<Note> {
+        return noteRepository.getNote(noteId)
+    }
+
     fun addNote(title: String, body: String) {
         viewModelScope.launch {
             // pass 0 as id for autoincrement

@@ -11,10 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import hopibel.todoapp.data.db.Note
 
 @Composable
@@ -29,6 +30,9 @@ fun NoteScreen(viewModel: NoteViewModel = hiltViewModel()) {
 private fun NoteScreen(notes: List<Note>) {
     var showCreateDialog by rememberSaveable { mutableStateOf(false) }
 
+    var showNoteDialog by rememberSaveable { mutableStateOf(false) }
+    var selectedNoteId by rememberSaveable { mutableStateOf(0L) }
+
     Scaffold(
         // add button
         floatingActionButtonPosition = FabPosition.Center,
@@ -39,11 +43,15 @@ private fun NoteScreen(notes: List<Note>) {
             )
         }}
     ) {
-        // TODO: note list
         Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
-            LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth()) {
-                items(notes) { note ->
-                    NoteListElement(note, onClick = {})
+            LazyColumn(modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()) {
+                items(notes.sortedByDescending { it.created.time }) { note ->
+                    NoteListElement(note, onClick = {
+                        showNoteDialog = true
+                        selectedNoteId = note.id
+                    })
                 }
             }
         }
@@ -51,6 +59,8 @@ private fun NoteScreen(notes: List<Note>) {
         // note creation dialog
         if (showCreateDialog) {
             NoteCreationDialog(onDismissRequest = { showCreateDialog = false })
+        } else if (showNoteDialog) {
+            NoteDisplayDialog(noteId = selectedNoteId, onDismissRequest = { showNoteDialog = false })
         }
     }
 }
@@ -65,19 +75,17 @@ fun NoteListElement(note: Note, onClick: (note: Note) -> Unit) {
             .fillMaxWidth()
     ) {
         Column {
-            Row {
-                Text(
-                    text = note.title,
-                    textDecoration = TextDecoration.Underline,
-                    style = MaterialTheme.typography.subtitle2,
-                    fontSize = 12.sp
-                )
-            }
+            Text(
+                text = note.title,
+                textDecoration = TextDecoration.Underline,
+                style = MaterialTheme.typography.h5,
+            )
             Spacer(modifier = Modifier.height(0.5.dp))
             Text(
-                text = "body preview", // TODO: replace with truncated body
-                style = MaterialTheme.typography.subtitle2,
-                fontSize = 8.sp
+                // preview first 20 chars of body
+                note.body,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }
