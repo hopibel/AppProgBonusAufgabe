@@ -8,22 +8,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
-    var showCreateDialog by rememberSaveable { mutableStateOf(false) }
-
-    NoteScreen(
-        showCreateDialog = showCreateDialog,
-        onAddNoteClick = { showCreateDialog = true },
-        onDismissCreate = { showCreateDialog = false },
-    )
+    NoteScreen()
 }
 
 // view 1: note list
 @Composable
-private fun NoteScreen(showCreateDialog: Boolean, onAddNoteClick: () -> Unit, onDismissCreate: () -> Unit) {
+private fun NoteScreen() {
+    var showCreateDialog by rememberSaveable { mutableStateOf(false) }
+
     Scaffold(
         // add button
         floatingActionButtonPosition = FabPosition.Center,
-        floatingActionButton = { FloatingActionButton(onClick = onAddNoteClick) {
+        floatingActionButton = { FloatingActionButton(onClick = { showCreateDialog = true }) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_baseline_add_24),
                 contentDescription = "add"
@@ -34,7 +30,7 @@ private fun NoteScreen(showCreateDialog: Boolean, onAddNoteClick: () -> Unit, on
 
         // note creation dialog
         if (showCreateDialog) {
-            NoteCreationDialog(onDismissRequest = onDismissCreate)
+            NoteCreationDialog(onDismissRequest = { showCreateDialog = false })
         }
     }
 }
