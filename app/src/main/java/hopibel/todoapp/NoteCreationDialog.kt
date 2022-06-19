@@ -17,7 +17,6 @@ fun NoteCreationDialog(onDismissRequest: () -> Unit) {
     var bodyText by remember { mutableStateOf("") }
 
     Dialog(onDismissRequest = onDismissRequest) {
-        // TODO
         Surface {
             Column(
                 modifier = Modifier

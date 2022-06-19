@@ -4,10 +4,11 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.painterResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun NoteScreen(viewModel: NoteViewModel = viewModel()) {
+fun NoteScreen(viewModel: NoteViewModel = hiltViewModel()) {
     NoteScreen()
 }
 
