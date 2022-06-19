@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.hilt.navigation.compose.hiltViewModel
 
 // view 2: note creation
 @Composable
@@ -39,7 +40,7 @@ fun NoteCreationDialog(onDismissRequest: () -> Unit) {
                 )
                 Row {
                     Spacer(modifier = Modifier.weight(1f))
-                    Button(onClick = { /*TODO*/ }) {
+                    Button(onClick = { /*viewModel.addNote(titleText, bodyText)*/ }) {
                         Text("Save")
                     }
                 }
