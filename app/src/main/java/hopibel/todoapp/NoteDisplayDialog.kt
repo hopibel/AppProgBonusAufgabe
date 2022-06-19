@@ -17,6 +17,7 @@ import java.util.*
 // view 3: display note
 @Composable
 fun NoteDisplayDialog(noteId: Long, onDismissRequest: () -> Unit, viewModel: NoteViewModel = hiltViewModel()) {
+    // for scrollable note body
     val scroll = rememberScrollState(0)
 
     val note by viewModel.getNote(noteId).collectAsState(Note(0, "", "", Date()))

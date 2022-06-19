@@ -41,6 +41,7 @@ fun NoteCreationDialog(onDismissRequest: () -> Unit, viewModel: NoteViewModel = 
                 Row {
                     Spacer(modifier = Modifier.weight(1f))
                     Button(onClick = {
+                        // forbid empty note title
                         if (titleText.isNotEmpty()) {
                             viewModel.addNote(titleText, bodyText)
                             onDismissRequest()

@@ -82,7 +82,7 @@ fun NoteListElement(note: Note, onClick: (note: Note) -> Unit) {
             )
             Spacer(modifier = Modifier.height(0.5.dp))
             Text(
-                // preview first 20 chars of body
+                // preview first line of body
                 note.body,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
